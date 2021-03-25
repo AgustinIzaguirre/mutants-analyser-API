@@ -1,1 +1,25 @@
 # mutants-analyser-API
+
+## Technical considerations
+
+### Storage
+
+We consider two different approaches for storing the data on a SQL database:
+
+1. Storing only one table with only two columns one for the type *human* or *mutant* and one column for the count.
+    The problem for this approach is that if the API is going to add new functionality, like getting all submitted dna,
+    it won't be possible because we are only storing the count of each analysis. But it is the most 
+    memory and time effective approach. 
+
+2. Storing each dna submited and then when the stats are calculated sum the ammount of each type.
+   This is the chosen approach because it will be easy to scale, but it requires more memory and more time for each request.
+   
+
+### Analyser
+
+For the analyser we implemented two types of analyser.
+One allowing chains overlapping on the same direction and one that ignores them.
+If we allow overlapping on same direction, any dna sequence containing a chain with at least five same nucleotides aligned on the same direction will be consider a mutant.
+We can build two chains the one starting on the first nucleatide and ending in the fourth, and one starting on the second and ending on the fifth.
+Also when we ignore overlapping on the same direction, we allow overlapping on different directions.
+When you create the analyser you need to provide a boolean indicating if the analyser will consider or ignore overlapping on the same direction.
