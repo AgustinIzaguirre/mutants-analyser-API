@@ -5,7 +5,10 @@ import (
 	"github.com/AgustinIzaguirre/mutants-analyser-api/internal/mutants/controller"
 	"github.com/AgustinIzaguirre/mutants-analyser-api/internal/mutants/persistence"
 	"github.com/AgustinIzaguirre/mutants-analyser-api/internal/mutants/service"
+	controller2 "github.com/AgustinIzaguirre/mutants-analyser-api/internal/stats/controller"
 	config2 "github.com/AgustinIzaguirre/mutants-analyser-api/internal/platform/config"
+	persistence2 "github.com/AgustinIzaguirre/mutants-analyser-api/internal/stats/persistence"
+	service2 "github.com/AgustinIzaguirre/mutants-analyser-api/internal/stats/service"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 	"log"
@@ -20,6 +23,15 @@ func SetUpServer() *gin.Engine {
 								service.New(
 									persistence.New("analysis", PostgresConnectionProvider)))
 		mutantGroup.POST("/", mutantController.AnalyseDNA)
+	}
+
+	StatsGroup := server.Group("/stats")
+	{
+		// TODO make table name constant
+		statsController := controller2.New(
+			service2.New(
+				persistence2.New("analysis", PostgresConnectionProvider)))
+		StatsGroup.GET("/", statsController.GetStats)
 	}
 	return server
 }
