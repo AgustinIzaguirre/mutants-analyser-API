@@ -2,9 +2,8 @@ package persistence
 
 import (
 	"database/sql"
-	"fmt"
+	"errors"
 	"github.com/AgustinIzaguirre/mutants-analyser-api/internal/mutants/domain"
-	"log"
 )
 
 type dao struct {
@@ -16,35 +15,29 @@ func New(tableName string, databaseConnectionProvider func() (*sql.DB, error)) d
 	return &dao{tableName: tableName, databaseConnectionProvider: databaseConnectionProvider}
 }
 
-func (dao *dao)AddAnalysis(isMutant bool) error {
-	query := `SELECT COUNT(*) FROM ` + dao.tableName + ` WHERE IsMutant;`
-	db, rows, err := dao.makeQuery(query)
-	defer db.Close()
-	defer rows.Close()
-	if err != nil {
-		log.Fatal(err)
-		return err
-	}
-
-	var count int
-	for rows.Next() {
-		err := rows.Scan(&count)
-		if err != nil {
-			return err
-		}
-	}
-	fmt.Println(count)
-	return nil
-}
-
-func (dao *dao) makeQuery(query string) (*sql.DB, *sql.Rows, error) {
+func (dao *dao)AddAnalysis(dna string, isMutant bool) (bool, error) {
+	query := `INSERT INTO ` + dao.tableName + `(dna, isMutant) VALUES ($1, $2)`
 	db, err := dao.databaseConnectionProvider()
 	if err != nil {
-		return db, &sql.Rows{}, err
+		return false, err
 	}
-	rows, queryErr := db.Query(query)
-	if queryErr != nil {
-		return db, rows, err
+	defer db.Close()
+
+	statement, err := db.Prepare(query)
+	if err != nil {
+		return false, err
 	}
-	return db, rows, nil
+	defer statement.Close()
+
+	rows, err := statement.Exec(dna, isMutant)
+	if err != nil {
+		return false, err
+	}
+	rowsAffected, err := rows.RowsAffected()
+	if err != nil {
+		return false, err
+	} else if rowsAffected != 1 {
+		return false, errors.New("Expected one affected row")
+	}
+	return isMutant, nil
 }

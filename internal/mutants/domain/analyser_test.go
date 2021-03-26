@@ -4,11 +4,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
-const QUANTITY = 4
 
 func TestMutantWithOverlappingHorizontal(t *testing.T) {
 	// set up
-	analyser := NewAnalyser(true, QUANTITY)
+	analyser := NewAnalyser(true)
 	dna := [1] string { "TTTTTA" }
 
 	// actions
@@ -20,7 +19,7 @@ func TestMutantWithOverlappingHorizontal(t *testing.T) {
 
 func TestMutantWithOverlappingVertical(t *testing.T) {
 	// set up
-	analyser := NewAnalyser(true, QUANTITY)
+	analyser := NewAnalyser(true)
 	dna := [5] string { "TCA",
 						"CTA",
 						"CTA",
@@ -36,7 +35,7 @@ func TestMutantWithOverlappingVertical(t *testing.T) {
 
 func TestMutantWithOverlappingRightDiagonal(t *testing.T) {
 	// set up
-	analyser := NewAnalyser(true, QUANTITY)
+	analyser := NewAnalyser(true)
 	dna := [5] string { "TCAGC",
 						"CTTAC",
 						"CCTGG",
@@ -52,7 +51,7 @@ func TestMutantWithOverlappingRightDiagonal(t *testing.T) {
 
 func TestMutantWithOverlappingLeftDiagonal(t *testing.T) {
 	// set up
-	analyser := NewAnalyser(true, QUANTITY)
+	analyser := NewAnalyser(true)
 	dna := [5] string { "TCAGC",
 						"CTACC",
 						"CCCGG",
@@ -68,7 +67,7 @@ func TestMutantWithOverlappingLeftDiagonal(t *testing.T) {
 
 func TestHumanWithoutOverlappingHorizontal(t *testing.T) {
 	// set up
-	analyser := NewAnalyser(false, QUANTITY)
+	analyser := NewAnalyser(false)
 	dna := [1] string { "TTTTTA" }
 
 	// actions
@@ -80,7 +79,7 @@ func TestHumanWithoutOverlappingHorizontal(t *testing.T) {
 
 func TestHumanWithOverlappingVertical(t *testing.T) {
 	// set up
-	analyser := NewAnalyser(false, QUANTITY)
+	analyser := NewAnalyser(false)
 	dna := [5] string { "TCA",
 						"CTA",
 						"CTA",
@@ -96,7 +95,7 @@ func TestHumanWithOverlappingVertical(t *testing.T) {
 
 func TestHumanWithOverlappingRightDiagonal(t *testing.T) {
 	// set up
-	analyser := NewAnalyser(false, QUANTITY)
+	analyser := NewAnalyser(false)
 	dna := [5] string { "TCAGC",
 						"CTTAC",
 						"CCTGG",
@@ -112,7 +111,7 @@ func TestHumanWithOverlappingRightDiagonal(t *testing.T) {
 
 func TestHumanWithOverlappingLeftDiagonal(t *testing.T) {
 	// set up
-	analyser := NewAnalyser(false, QUANTITY)
+	analyser := NewAnalyser(false)
 	dna := [5] string { "TCAGC",
 						"CTACC",
 						"CCCGG",
@@ -128,7 +127,7 @@ func TestHumanWithOverlappingLeftDiagonal(t *testing.T) {
 
 func TestMutantWithHorizontalAndVertical(t *testing.T) {
 	// set up
-	analyser := NewAnalyser(false, QUANTITY)
+	analyser := NewAnalyser(false)
 	dna := [5] string { "CCAGC",
 						"CTATC",
 						"CCGGG",
@@ -144,7 +143,7 @@ func TestMutantWithHorizontalAndVertical(t *testing.T) {
 
 func TestMutantWithLeftDiagonalAndRightDiagonal(t *testing.T) {
 	// set up
-	analyser := NewAnalyser(false, QUANTITY)
+	analyser := NewAnalyser(false)
 	dna := [5] string { "CAAGG",
 						"CTAGC",
 						"TCGAG",
@@ -160,7 +159,7 @@ func TestMutantWithLeftDiagonalAndRightDiagonal(t *testing.T) {
 
 func TestMutantOverlappingWithDifferentDirection(t *testing.T) {
 	// set up
-	analyser := NewAnalyser(false, QUANTITY)
+	analyser := NewAnalyser(false)
 	dna := [5] string { "GAAGG",
 						"CGAGC",
 						"TCGCG",
