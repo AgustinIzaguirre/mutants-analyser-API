@@ -1,6 +1,5 @@
 CREATE TABLE analysis (
-   Id SERIAL PRIMARY KEY
-   Dna TEXT NOT NULL,
-   IsMutant BOOLEAN NOT NULL,
+   Dna TEXT PRIMARY KEY,
+   IsMutant BOOLEAN NOT NULL
 );
 
