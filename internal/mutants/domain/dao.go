@@ -1,5 +1,5 @@
 package domain
 
 type Dao interface {
-	AddAnalysis(isMutant bool) error
+	AddAnalysis(dna string, isMutant bool) (bool, error)
 }

@@ -7,13 +7,15 @@ const (
 	LEFT_DIAGONAL uint8 = 8
 )
 
+const DEFAULT_QUANTITY int = 4
+
 type analyser struct {
 	allowOverlapping bool
 	quantity int
 }
 
-func NewAnalyser(allowOverlapping bool, quantity int) *analyser {
-	return &analyser{allowOverlapping: allowOverlapping, quantity: quantity}
+func NewAnalyser(allowOverlapping bool) *analyser {
+	return &analyser{allowOverlapping: allowOverlapping, quantity: DEFAULT_QUANTITY}
 }
 
 func (analyser *analyser) IsMutant(dna[] string) bool {
