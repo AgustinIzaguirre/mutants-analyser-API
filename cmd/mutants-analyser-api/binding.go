@@ -14,23 +14,23 @@ import (
 	"log"
 )
 
+const ANALYSIS_TABLE_NAME string = "analysis"
+
 func SetUpServer() *gin.Engine {
 	server := gin.Default()
 	mutantGroup := server.Group("/mutant")
 	{
-		// TODO make table name constant
 		mutantController := controller.New(
 								service.New(
-									persistence.New("analysis", PostgresConnectionProvider)))
+									persistence.New(ANALYSIS_TABLE_NAME, PostgresConnectionProvider)))
 		mutantGroup.POST("/", mutantController.AnalyseDNA)
 	}
 
 	StatsGroup := server.Group("/stats")
 	{
-		// TODO make table name constant
 		statsController := controller2.New(
 			service2.New(
-				persistence2.New("analysis", PostgresConnectionProvider)))
+				persistence2.New(ANALYSIS_TABLE_NAME, PostgresConnectionProvider)))
 		StatsGroup.GET("/", statsController.GetStats)
 	}
 	return server
