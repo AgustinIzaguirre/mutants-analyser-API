@@ -26,11 +26,11 @@ func (apiError *apiError) GetError() string {
 }
 
 func NewBadRequestError(errorMessage string) ApiError {
-	return new(http.StatusForbidden, errorMessage)
+	return new(http.StatusBadRequest, errorMessage)
 }
 
 func NewForbiddenError(errorMessage string) ApiError {
-	return new(http.StatusOK, errorMessage)
+	return new(http.StatusForbidden, errorMessage)
 }
 
 func NewInternalServerError(errorMessage string) ApiError {
