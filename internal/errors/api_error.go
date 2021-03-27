@@ -9,20 +9,20 @@ type ApiError interface {
 }
 
 type apiError struct {
-	status int
-	errorMessage string
+	Status int `json:"status"`
+	ErrorMessage string `json:"error_message"`
 }
 
 func new(status int, errorMessage string) ApiError{
-	return &apiError{status: status, errorMessage: errorMessage}
+	return &apiError{Status: status, ErrorMessage: errorMessage}
 }
 
 func (apiError *apiError) GetStatus() int {
-	return apiError.status
+	return apiError.Status
 }
 
 func (apiError *apiError) GetError() string {
-	return apiError.errorMessage
+	return apiError.ErrorMessage
 }
 
 func NewBadRequestError(errorMessage string) ApiError {
