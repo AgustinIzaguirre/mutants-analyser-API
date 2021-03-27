@@ -3,6 +3,7 @@ package controller
 import (
 	"github.com/AgustinIzaguirre/mutants-analyser-api/internal/stats/domain"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 type Controller struct {
@@ -18,5 +19,5 @@ func (controller *Controller) GetStats(context *gin.Context) {
 	if err != nil {
 		context.JSON(500, err)
 	}
-	context.JSON(200, stats)
+	context.JSON(http.StatusOK, stats)
 }

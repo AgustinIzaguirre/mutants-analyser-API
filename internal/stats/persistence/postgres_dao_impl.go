@@ -2,6 +2,7 @@ package persistence
 
 import (
 	"database/sql"
+	"github.com/AgustinIzaguirre/mutants-analyser-api/internal/errors"
 	"github.com/AgustinIzaguirre/mutants-analyser-api/internal/stats/domain"
 	"log"
 )
@@ -15,13 +16,13 @@ func New(tableName string, databaseConnectionProvider func() (*sql.DB, error)) d
 	return &dao{tableName: tableName, databaseConnectionProvider: databaseConnectionProvider}
 }
 
-func (dao *dao) GetStats() (domain.Stats, error) {
+func (dao *dao) GetStats() (domain.Stats, errors.ApiError) {
 	query := `SELECT sum(case when IsMutant then 1 else 0 end) AS Mutants,` +
 			`sum(case when not IsMutant then 1 else 0 end) AS Human FROM ` + dao.tableName + `;`
 	db, rows, err := dao.makeQuery(query)
 	if err != nil {
 		log.Fatal(err)
-		return domain.Stats{},err
+		return domain.Stats{}, errors.NewInternalServerError(err.Error())
 	}
 	defer db.Close()
 	defer rows.Close()
@@ -30,7 +31,7 @@ func (dao *dao) GetStats() (domain.Stats, error) {
 	for rows.Next() {
 		err := rows.Scan(&result.Mutants, &result.Humans)
 		if err != nil {
-			return domain.Stats{}, err
+			return domain.Stats{}, errors.NewInternalServerError(err.Error())
 		}
 	}
 	if result.Mutants == 0 {
