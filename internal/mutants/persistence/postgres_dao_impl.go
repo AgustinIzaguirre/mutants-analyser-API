@@ -17,16 +17,11 @@ func New(tableName string, databaseConnectionProvider func() (*sql.DB, error)) d
 
 func (dao *dao)AddAnalysis(dna string, isMutant bool) (bool, errors.ApiError) {
 	query := `INSERT INTO ` + dao.tableName + `(dna, isMutant) VALUES ($1, $2)`
-	db, err := dao.databaseConnectionProvider()
+	db, statement, err := dao.prepareQuery(query)
 	if err != nil {
 		return false, errors.NewInternalServerError(err.Error())
 	}
 	defer db.Close()
-
-	statement, err := db.Prepare(query)
-	if err != nil {
-		return false, errors.NewInternalServerError(err.Error())
-	}
 	defer statement.Close()
 
 	rows, err := statement.Exec(dna, isMutant)
@@ -40,4 +35,42 @@ func (dao *dao)AddAnalysis(dna string, isMutant bool) (bool, errors.ApiError) {
 		return false, errors.NewInternalServerError("Expected one affected row")
 	}
 	return isMutant, nil
+}
+
+func (dao *dao) HasDNASequence(dna string) (bool, errors.ApiError) {
+	query := `SELECT dna FROM ` + dao.tableName + ` where dna LIKE $1`
+	db, statement, err := dao.prepareQuery(query)
+	if err != nil {
+		return false, errors.NewInternalServerError(err.Error())
+	}
+	defer db.Close()
+	defer statement.Close()
+
+	rows, err := statement.Query(dna)
+	if err != nil {
+		return false, errors.NewInternalServerError(err.Error())
+	}
+	defer rows.Close()
+	count := 0
+	for rows.Next() {
+		var currentDna string
+		err := rows.Scan(&currentDna)
+		if err != nil {
+			return false, errors.NewInternalServerError(err.Error())
+		}
+		count ++
+	}
+	return count > 0, nil
+}
+
+func (dao *dao) prepareQuery(query string) (*sql.DB, *sql.Stmt, error) {
+	db, err := dao.databaseConnectionProvider()
+	if err != nil {
+		return &sql.DB{}, &sql.Stmt{}, err
+	}
+	statement, err := db.Prepare(query)
+	if err != nil {
+		return &sql.DB{}, &sql.Stmt{}, err
+	}
+	return db, statement, nil
 }
