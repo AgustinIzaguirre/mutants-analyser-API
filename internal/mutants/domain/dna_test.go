@@ -60,7 +60,7 @@ func TestToStringOneLineSequence(t *testing.T) {
 	// set up
 	sequence := [1] string { "TTGTCA" }
 	dna := New(sequence[:])
-	expected := "TTGTCA\n"
+	expected := "TTGTCA_"
 
 	// actions
 	actual := dna.ToString()
@@ -75,7 +75,7 @@ func TestToStringMultipleLineaSequence(t *testing.T) {
 		"CGGTGC",
 		"AGACGG" }
 	dna := New(sequence[:])
-	expected := "TTGTCA\nCGGTGC\nAGACGG\n"
+	expected := "TTGTCA_CGGTGC_AGACGG_"
 
 	// actions
 	actual := dna.ToString()

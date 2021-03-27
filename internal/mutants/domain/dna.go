@@ -32,7 +32,7 @@ func (dna *Dna) ToString() string {
 		for j := 0; j < len(dna.sequence[i]); j++ {
 			result += string(dna.sequence[i][j])
 		}
-		result += "\n"
+		result += "_"
 	}
 	return result
 }
