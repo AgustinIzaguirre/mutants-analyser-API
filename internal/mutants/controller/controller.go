@@ -1,9 +1,11 @@
 package controller
 
 import (
+	"github.com/AgustinIzaguirre/mutants-analyser-api/internal/errors"
 	"github.com/AgustinIzaguirre/mutants-analyser-api/internal/mutants/domain"
 	"github.com/gin-gonic/gin"
 	"strings"
+	"net/http"
 )
 
 type Controller struct {
@@ -19,17 +21,15 @@ func (controller *Controller) AnalyseDNA(context *gin.Context) {
 	allowOverllapping := getBoolFromQueryParam(params, "overlapping", true)
 	var dna DnaDto
 	if err := context.ShouldBind(&dna); err != nil {
-		// TODO make bad request
-		context.JSON(400, err.Error())
+		context.JSON(http.StatusBadRequest, errors.NewBadRequestError(err.Error()))
 	} else {
 		isMutant, err := controller.service.AddAnalysis(dna.ToModel(), allowOverllapping)
 		if err != nil {
-			// TODO handle error
-			context.JSON(400, err.Error())
+			context.JSON(err.GetStatus(), err)
 		} else if !isMutant {
-			context.JSON(403, "Is Human")
+			context.JSON(http.StatusForbidden, errors.NewForbiddenError("Is Human"))
 		} else {
-			context.JSON(200, "Is Mutant")
+			context.JSON(http.StatusOK, "Is Mutant")
 		}
 	}
 }
