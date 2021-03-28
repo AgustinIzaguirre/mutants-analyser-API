@@ -11,6 +11,7 @@ type Config struct {
 	PostgresServerAddress string `mapstructure:"POSTGRES_SERVER_ADDRESS"`
 	PostgresServerPort string `mapstructure:"POSTGRES_SERVER_PORT"`
 	PostgresSslMode string `mapstructure:"POSTGRES_SSL_MODE"`
+	Port string `mapstructure:"PORT"`
 	isLoaded bool
 }
 
@@ -36,7 +37,7 @@ func loadConfig(configFilePath string, configName string, configType string) (Co
 
 func GetConfig(configFilePath string) (Config, error) {
 	if !config.isLoaded {
-		return loadConfig(configFilePath, "local", "env")
+		return loadConfig(configFilePath, "prod", "env")
 	}
 	return config, nil
 }
