@@ -37,7 +37,7 @@ func loadConfig(configFilePath string, configName string, configType string) (Co
 
 func GetConfig(configFilePath string) (Config, error) {
 	if !config.isLoaded {
-		return loadConfig(configFilePath, "local", "env")
+		return loadConfig(configFilePath, "prod", "env")
 	}
 	return config, nil
 }
