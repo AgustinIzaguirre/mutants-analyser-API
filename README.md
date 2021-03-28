@@ -1,5 +1,53 @@
 # mutants-analyser-API
 
+Is an API for mutant DNA analysis.
+
+## Prerequisites
+
+* Docker. [Install Docker](https://www.docker.com/get-started)
+* Makefile.
+
+## Arquitecture
+The API is developed using go with gin and a PostgreSQL database
+
+The api is deployed on heroku on https://mutants-analyser-api.herokuapp.com
+
+![Architecture diagram](architecture.png "Title")
+
+To see the api documentation open in your browser [api-documentation.html](api-documentaion.html)
+
+## Running locally
+### Setting database
+
+#### Running Container
+Run a container with postgres image using command:
+
+    docker run -d --name=CONTAINER_NAME -p LOCAL_PORT:CONTAINER_PORT -e POSTGRES_PASSWORD=PASS -e PGDATA=/pgdata -v LOCAL_ABSOLUTE_PATH:CONTAINER_ABSOLUTE_PATH postgres
+Where
+* -d to run detached mode (in background).
+* --name for naming the container.
+* -p to bind a local port to a container port.
+* -e to send enviroment variables.
+* -v map a file from local file system to container filesystem.
+
+#### Creating user, database and table
+1. Run postgres container.
+2. Connect to the database with command: `docker container exec -it CONTAINER_NAME psql -U postgres
+`
+3. Create a user: `CREATE ROLE USER_NAME PASSWORD 'USER_PASSWORD';`
+4. Create database: `CREATE DATABASE DATABASE_NAME OWNER USER_NAME;`
+5. Create table, run [schemas.sql](internal/platform/databases/postgres/schemas.sql)
+
+### Run API
+
+After setting up the database and with CWD on the root of the project:
+ 1. copy [.env](.env) file and asign the variables with your own values.
+ 2. Go to [config.go](internal/platform/config/config.go) and change the line:
+    `return loadConfig(configFilePath, "prod", "env")` changing prod with the prefix you used on your .env file.
+    For example if you named it *local.env* instead of "prod" it would be "local".
+ 3. Run the api: `make run`
+
+
 ## Technical considerations
 
 ### Storage
