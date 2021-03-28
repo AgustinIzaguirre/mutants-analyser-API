@@ -16,7 +16,13 @@ func New(sequence [] string) *Dna {
 }
 
 func (dna *Dna) IsValid() bool {
+	if len(dna.sequence) == 0 {
+		return false
+	}
 	for i := 0; i < len(dna.sequence); i++ {
+		if len(dna.sequence[i]) == 0 {
+			return false
+		}
 		for j := 0; j < len(dna.sequence[i]); j++ {
 			if !dna.validLetters[string(dna.sequence[i][j])] {
 				return false
