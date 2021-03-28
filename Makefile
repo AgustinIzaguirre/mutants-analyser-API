@@ -3,3 +3,6 @@ build:
 
 run: build
 	./out/mutants-analyser
+
+test:
+	go test ./...
