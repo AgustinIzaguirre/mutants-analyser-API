@@ -11,6 +11,7 @@ type Config struct {
 	PostgresServerAddress string `mapstructure:"POSTGRES_SERVER_ADDRESS"`
 	PostgresServerPort string `mapstructure:"POSTGRES_SERVER_PORT"`
 	PostgresSslMode string `mapstructure:"POSTGRES_SSL_MODE"`
+	Port string `mapstructure:"PORT"`
 	isLoaded bool
 }
 
