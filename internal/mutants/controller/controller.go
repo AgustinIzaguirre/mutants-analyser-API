@@ -27,9 +27,9 @@ func (controller *Controller) AnalyseDNA(context *gin.Context) {
 		if err != nil {
 			context.JSON(err.GetStatus(), err)
 		} else if !isMutant {
-			context.JSON(http.StatusForbidden, errors.NewForbiddenError("Is Human"))
+			context.JSON(http.StatusForbidden, errors.NewForbiddenError("Is Human."))
 		} else {
-			context.JSON(http.StatusOK, "Is Mutant")
+			context.JSON(http.StatusOK, "Is Mutant.")
 		}
 	}
 }

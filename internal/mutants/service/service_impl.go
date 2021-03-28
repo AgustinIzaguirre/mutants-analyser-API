@@ -19,14 +19,14 @@ func (service *service) AddAnalysis(dna *domain.Dna, allowOverlapping bool) (boo
 		if err != nil {
 			return false, err
 		} else if exists {
-			return false, errors.NewBadRequestError("DNA sequence already submitted")
+			return false, errors.NewBadRequestError("DNA sequence already submitted.")
 		} else {
 			analyser := domain.NewAnalyser(allowOverlapping)
 			isMutant := analyser.IsMutant(dna.GetSequence())
 			return service.dao.AddAnalysis(dna.ToString(), isMutant)
 		}
 	} else {
-		return false, errors.NewBadRequestError("Invalid DNA sequence")
+		return false, errors.NewBadRequestError("Invalid DNA sequence. Valid characters are 'A', 'C', 'G' and 'T'.")
 	}
 }
 
