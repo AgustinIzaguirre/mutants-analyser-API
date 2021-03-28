@@ -1,5 +1,7 @@
 # mutants-analyser-API
 
+Is an API for mutant DNA analysis.
+
 ## Prerequisites
 
 * Docker. [Install Docker](https://www.docker.com/get-started)
