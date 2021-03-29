@@ -7,7 +7,7 @@ Is an API for mutant DNA analysis.
 * Docker. [Install Docker](https://www.docker.com/get-started)
 * Makefile.
 
-## Arquitecture
+## Architecture
 The API is developed using go with gin and a PostgreSQL database
 
 The api is deployed on heroku on https://mutants-analyser-api.herokuapp.com

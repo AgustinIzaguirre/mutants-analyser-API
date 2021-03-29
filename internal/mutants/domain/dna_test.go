@@ -56,6 +56,42 @@ func TestIsValidWithSymbolsInSequence(t *testing.T) {
 	assert.Equal(t, false, isValid)
 }
 
+func TestIsValidWithEmptyArray(t *testing.T) {
+	// set up
+	sequence := [] string {}
+	dna := New(sequence[:])
+
+	// actions
+	isValid := dna.IsValid()
+
+	// post conditions
+	assert.Equal(t, false, isValid)
+}
+
+func TestIsValidWithEmptyRow(t *testing.T) {
+	// set up
+	sequence := [] string {"ACG","", "TCA"}
+	dna := New(sequence[:])
+
+	// actions
+	isValid := dna.IsValid()
+
+	// post conditions
+	assert.Equal(t, false, isValid)
+}
+
+func TestIsValidWithEmptySequence(t *testing.T) {
+	// set up
+	sequence := [] string {""}
+	dna := New(sequence[:])
+
+	// actions
+	isValid := dna.IsValid()
+
+	// post conditions
+	assert.Equal(t, false, isValid)
+}
+
 func TestToStringOneLineSequence(t *testing.T) {
 	// set up
 	sequence := [1] string { "TTGTCA" }
