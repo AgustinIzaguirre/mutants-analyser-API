@@ -23,4 +23,4 @@
 .DS_Store
 
 # env files
-**local.env
+**.env
